@@ -20,6 +20,8 @@ urlpatterns = [
     # User management
     path("users/", include("{{ cookiecutter.project_slug }}.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+
+    path("{{ cookiecutter.first_subsystem }}/", include("{{ cookiecutter.project_slug }}.{{ cookiecutter.first_subsystem }}.urls", namespace="{{ cookiecutter.first_subsystem }}")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 {%- if cookiecutter.use_async == 'y' %}
