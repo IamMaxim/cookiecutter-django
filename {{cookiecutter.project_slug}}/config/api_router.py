@@ -1,8 +1,10 @@
 from django.conf import settings
-from rest_framework.routers import DefaultRouter, SimpleRouter
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter, SimpleRouter, BaseRouter
 
 from {{ cookiecutter.project_slug }}.users.api.views import UserViewSet
 
+router: BaseRouter
 if settings.DEBUG:
     router = DefaultRouter()
 else:
