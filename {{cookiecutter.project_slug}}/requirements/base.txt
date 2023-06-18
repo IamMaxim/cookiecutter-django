@@ -51,4 +51,4 @@ django-webpack-loader==2.0.0  # https://github.com/django-webpack/django-webpack
 
 # Third-party
 # ------------------------------------------------------------------------------
-django-enumfields==2.1.1
+django-enumfields2==3.0.2  # https://github.com/akx/django-enumfields2

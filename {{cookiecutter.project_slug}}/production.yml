@@ -26,7 +26,7 @@ services:
         {%- endif %}
       {%- endif %}
 
-    image: {{ cookiecutter.project_slug }}_production_django
+    image: $CI_REGISTRY_IMAGE/django:$CI_COMMIT_SHA
     {%- if cookiecutter.cloud_provider == 'None' %}
     volumes:
       - production_django_media:/app/{{ cookiecutter.project_slug }}/media
@@ -43,7 +43,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: {{ cookiecutter.project_slug }}_production_postgres
+    image: $CI_REGISTRY_IMAGE/postgres:$CI_COMMIT_SHA
     volumes:
       - production_postgres_data:/var/lib/postgresql/data
       - production_postgres_data_backups:/backups
@@ -54,7 +54,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
-    image: {{ cookiecutter.project_slug }}_production_traefik
+    image: $CI_REGISTRY_IMAGE/traefik:$CI_COMMIT_SHA
     depends_on:
       - django
     volumes:
@@ -72,17 +72,17 @@ services:
 
   celeryworker:
     <<: *django
-    image: {{ cookiecutter.project_slug }}_production_celeryworker
+    image: $CI_REGISTRY_IMAGE/celeryworker:$CI_COMMIT_SHA
     command: /start-celeryworker
 
   celerybeat:
     <<: *django
-    image: {{ cookiecutter.project_slug }}_production_celerybeat
+    image: $CI_REGISTRY_IMAGE/celerybeat:$CI_COMMIT_SHA
     command: /start-celerybeat
 
   flower:
     <<: *django
-    image: {{ cookiecutter.project_slug }}_production_flower
+    image: $CI_REGISTRY_IMAGE/flower:$CI_COMMIT_SHA
     command: /start-flower
   {%- endif %}
   {%- if cookiecutter.cloud_provider == 'AWS' %}
@@ -102,7 +102,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/nginx/Dockerfile
-    image: {{ cookiecutter.project_slug }}_local_nginx
+    image: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
     depends_on:
       - django
     volumes:

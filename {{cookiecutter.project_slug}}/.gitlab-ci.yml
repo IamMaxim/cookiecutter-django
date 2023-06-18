@@ -1,6 +1,8 @@
 stages:
   - lint
   - test
+  - build
+  - deploy
 
 variables:
   POSTGRES_USER: '{{ cookiecutter.project_slug }}'
@@ -10,10 +12,17 @@ variables:
   {%- if cookiecutter.use_celery == 'y' %}
   CELERY_BROKER_URL: 'redis://redis:6379/0'
   {%- endif %}
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_DEPTH: 1
+  # Force rewrite SSH to HTTPS for submodules,
+  # since no SSH keys are present in CI job.
+  GIT_SUBMODULE_FORCE_HTTPS: "true"
 
 precommit:
   stage: lint
   image: python:3.11
+  tags:
+    - docker
   variables:
     PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
   cache:
@@ -52,3 +61,38 @@ pytest:
   script:
     - pytest
   {%- endif %}
+
+{%- if cookiecutter.use_docker == 'y' %}
+build and push prod:
+  stage: push
+  image: atnartur/docker:latest
+  tags:
+    - docker
+  only:
+    - master
+  script:
+    # Setup prod env file
+    - bash setup_prod_env_files.sh
+    # Build and push images
+    - docker-compose -f production.yml build
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker-compose -f production.yml push
+{%- endif %}
+
+{%- if cookiecutter.use_docker == 'y' %}
+deploy prod:
+  stage: deploy
+  image: atnartur/docker:latest
+  tags:
+    - docker-compose
+    - prod
+  only:
+    - master
+  script:
+    # Setup prod env file
+    - bash setup_prod_env_files.sh
+    # Deploy
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker-compose -f production.yml pull
+    - docker-compose -f production.yml up -d
+{%- endif %}

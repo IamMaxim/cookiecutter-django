@@ -94,6 +94,16 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% endraw %}{% if cookiecutter.username_type == "email" %}{% raw %}{% url 'users:detail' request.user.pk %}{% endraw %}{% else %}{% raw %}{% url 'users:detail' request.user.username %}{% endraw %}{% endif %}{% raw %}">{% translate "My Profile" %}</a>
                 </li>
+
+                {% if request.user.is_staff %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}">{% translate "Admin" %}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'api-docs' %}">{% translate "API" %}</a>
+                  </li>
+                {% endif %}
+
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
                   <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
