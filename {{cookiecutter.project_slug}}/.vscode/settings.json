@@ -1,0 +1,18 @@
+{
+    "python.formatting.provider": "black",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.packageIndexDepths": [
+        {
+            "name": "",
+            "depth": 10
+        }
+    ],
+    "mypy.runUsingActiveInterpreter": true,
+    "mypy.workingDirectory": ".",
+    "mypy.configFile": "mypy.ini",
+    "python.testing.pytestArgs": [
+        "{{ cookicutter.project_slug }}"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

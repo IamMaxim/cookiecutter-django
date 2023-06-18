@@ -15,5 +15,5 @@ router.register("users", UserViewSet)
 
 app_name = "api"
 urlpatterns = [
-    path("{{ cookiecutter.first_subsystem }}/", include("{{ cookiecutter.first_subsystem }}.api.api_router", namespace="{{ cookiecutter.first_subsystem }}")),
+    path("{{ cookiecutter.first_subsystem }}/", include("{{ cookiecutter.project_slug }}.{{ cookiecutter.first_subsystem }}.api.api_router", namespace="{{ cookiecutter.first_subsystem }}")),
 ] + router.urls

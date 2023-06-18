@@ -63,6 +63,7 @@ pytest:
   {%- endif %}
 
 {%- if cookiecutter.use_docker == 'y' %}
+
 build and push prod:
   stage: push
   image: atnartur/docker:latest
@@ -80,6 +81,7 @@ build and push prod:
 {%- endif %}
 
 {%- if cookiecutter.use_docker == 'y' %}
+
 deploy prod:
   stage: deploy
   image: atnartur/docker:latest
