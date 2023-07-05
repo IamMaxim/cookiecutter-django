@@ -11,7 +11,7 @@
     "mypy.workingDirectory": ".",
     "mypy.configFile": "mypy.ini",
     "python.testing.pytestArgs": [
-        "{{ cookicutter.project_slug }}"
+        "{{ cookiecutter.project_slug }}"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true
