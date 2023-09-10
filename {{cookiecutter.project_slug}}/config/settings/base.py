@@ -47,7 +47,7 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 {% if cookiecutter.use_docker == "y" -%}
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "timescale.db.backends.postgresql",
         "NAME": env("POSTGRES_DB"),
         "USER": env("POSTGRES_USER"),
         "PASSWORD": env("POSTGRES_PASSWORD"),

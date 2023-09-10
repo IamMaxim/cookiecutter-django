@@ -13,8 +13,10 @@ runserver:
 migrate:
   python manage.py migrate
 
+{% raw -%}
 makemigrations +ARGS:
   python manage.py makemigrations {{ARGS}}
+{%- endraw %}
 
 ruff:
   ruff check {{cookiecutter.project_slug}}
